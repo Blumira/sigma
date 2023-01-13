@@ -1,0 +1,53 @@
+title: Blumira
+backends:
+  - bq-sql
+select: shipping_agent, type, windows_event_id, user, process_name, description, device_address, devname, domain, parent_process_id, parent_process_name, parent.cmdline
+order: 20   
+logsources:
+  process_creation:
+    category: process_creation
+    product: windows
+  windows-application:
+    product: windows
+    service: application
+    conditions:
+      Channel: Application
+  windows-security:
+    product: windows
+    service: security
+    conditions:
+      Channel: Security
+  windows-system:
+    product: windows
+    service: system
+    conditions:
+      Channel: System
+  windows-sysmon:
+    product: windows
+    service: sysmon
+    conditions:
+      Channel: 'Microsoft-Windows-Sysmon/Operational'
+  windows-powershell:
+    product: windows
+    service: powershell
+    conditions:
+      Channel:
+        - 'Microsoft-Windows-PowerShell/Operational'
+        - 'PowerShellCore/Operational'
+fieldmappings:
+   EventID: windows_event_id
+   Event-ID: windows_event_id
+   Event_ID: windows_event_id
+   eventId: windows_event_id
+   event-id: windows_event_id
+   eventid: windows_event_id
+   Description: description
+   OriginalFileName: description
+   Product: description
+   Image: process_name
+   ParentImage: parent_process_name
+   CommandLine: command
+   dst: dst_ip
+   DestPort: dst_port
+   src: src_ip
+   ClientIP: client_ip
